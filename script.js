@@ -1,5 +1,5 @@
 // ========== CONFIG ==========
-const PASSKEY = "2709";   // ← Your new password
+const PASSKEY = "2709";
 
 const LETTER = `To My Dearest,
 
@@ -15,26 +15,8 @@ Forever and always yours,
 Your Love`;
 
 // ========== YOUR MEDIA LIST ==========
-// Put the real file names from your media folder here
 const mediaList = [
-  // Images (will show for 3 seconds with zoom)
-  { type: "image", src: "media/IMG-20260704-WA0104(1).jpg" },
-  { type: "image", src: "media/PHOTO-2025-01-01-01-53-58.jpg" },
-
-  // Videos (will play fully then move to next)
-  { type: "video", src: "media/VID-20260304-WA0007.mp4" },
-  { type: "video", src: "media/VID-20260304-WA0007(1).mp4" },
-  { type: "video", src: "media/VID-20260325-WA0008.mp4" },
-  { type: "video", src: "media/VIDEO-2025-01-01-01-44-21.mp4" },
-  { type: "video", src: "media/VIDEO-2025-01-01-01-50-57.mp4" },
-  { type: "video", src: "media/VIDEO-2025-01-01-01-50-57(1).mp4" },
-  { type: "video", src: "media/VIDEO-2025-01-01-01-50-57(2).mp4" },
-  { type: "video", src: "media/VIDEO-2025-01-01-01-50-57(3).mp4" },
-  { type: "video", src: "media/VIDEO-2025-01-01-01-50-57(4).mp4" },
-  { type: "video", src: "media/VIDEO-2025-01-01-01-50-57(5).mp4" },
-  { type: "video", src: "media/VIDEO-2025-01-01-01-52-06.mp4" },
-  { type: "video", src: "media/VIDEO-2025-01-01-01-52-27.mp4" },
-  { type: "video", src: "media/VIDEO-2025-01-01-01-52-52.mp4" },
+  { type: "video", src: "https://res.cloudinary.com/srfgkyqw/video/upload/v1788388943/VIDEO-2025-01-01-01-53-35.mp4" }
 ];
 
 // ========== STATE ==========
@@ -129,7 +111,6 @@ function startSlideshow() {
       <div class="slide-counter" id="slide-counter"></div>
     </div>
   `;
-
   showNextMedia();
 }
 
