@@ -2,121 +2,371 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+  <meta
+    name="viewport"
+    content="width=device-width, initial-scale=1.0"
+  />
+
   <title>For You, My Baby</title>
+
   <link rel="stylesheet" href="style.css" />
-  <link href="https://fonts.googleapis.com/css2?family=Great+Vibes&family=Dancing+Script:wght@400;600&family=Playfair+Display:ital@0;1&display=swap" rel="stylesheet">
+
+  <link
+    href="https://fonts.googleapis.com/css2?family=Great+Vibes&family=Dancing+Script:wght@400;600&family=Playfair+Display:ital@0;1&display=swap"
+    rel="stylesheet"
+  />
 </head>
+
 <body>
-  <!-- STAGE 1: Gift Box -->
+
+  <!-- =================================================
+       STAGE 1 — GIFT
+  ================================================== -->
+
   <section id="gift-stage" class="stage active">
-    <div class="gift-box" id="giftBox">
+
+    <div
+      class="gift-box"
+      id="giftBox"
+      aria-label="Open the gift"
+      role="button"
+      tabindex="0"
+    >
       <div class="lid"></div>
       <div class="box"></div>
       <div class="bow"></div>
     </div>
-    <h1 class="main-text">For you, my baby.</h1>
-    <p class="sub-text">(tap to open)</p>
+
+    <h1 class="main-text">
+      For you, my baby.
+    </h1>
+
+    <p class="sub-text">
+      (tap to open)
+    </p>
+
   </section>
 
-  <!-- STAGE 2: Roses falling -->
+
+  <!-- =================================================
+       STAGE 2 — FALLING ROSES
+  ================================================== -->
+
   <section id="roses-stage" class="stage">
+
     <div id="roses-container"></div>
+
   </section>
 
-  <!-- STAGE 3: From me to you -->
+
+  <!-- =================================================
+       STAGE 3 — FROM ME TO YOU
+  ================================================== -->
+
   <section id="message-stage" class="stage">
+
     <div class="message-content">
-      <h1 class="cursive">From me to you.</h1>
-      <p class="subtitle">This is how much I love you.</p>
+
+      <h1 class="cursive">
+        From me to you.
+      </h1>
+
+      <p class="subtitle">
+        This is how much I love you.
+      </p>
+
       <div class="couple-illustration">
-        <!-- Simple cute couple SVG -->
-        <svg width="220" height="180" viewBox="0 0 220 180">
+
+        <svg
+          width="220"
+          height="180"
+          viewBox="0 0 220 180"
+          aria-label="Cute couple illustration"
+        >
+
           <!-- Boy -->
-          <circle cx="70" cy="55" r="22" fill="#f5d0a9"/>
-          <rect x="50" y="75" width="40" height="55" rx="8" fill="#d4a574"/>
+          <circle
+            cx="70"
+            cy="55"
+            r="22"
+            fill="#f5d0a9"
+          />
+
+          <rect
+            x="50"
+            y="75"
+            width="40"
+            height="55"
+            rx="8"
+            fill="#d4a574"
+          />
+
           <!-- Girl -->
-          <circle cx="150" cy="55" r="22" fill="#f5d0a9"/>
-          <path d="M130 75 Q150 70 170 75 L165 130 Q150 140 135 130 Z" fill="#e8a0b0"/>
-          <!-- Hearts -->
-          <text x="110" y="40" font-size="20">❤️</text>
+          <circle
+            cx="150"
+            cy="55"
+            r="22"
+            fill="#f5d0a9"
+          />
+
+          <path
+            d="M130 75 Q150 70 170 75 L165 130 Q150 140 135 130 Z"
+            fill="#e8a0b0"
+          />
+
+          <!-- Heart -->
+          <text
+            x="110"
+            y="40"
+            font-size="20"
+          >
+            ❤️
+          </text>
+
         </svg>
+
       </div>
-      <div class="hearts-row">♦ ♥ ♦</div>
+
+      <div class="hearts-row">
+        ♦ ♥ ♦
+      </div>
+
     </div>
+
   </section>
 
-  <!-- STAGE 4: Quote -->
+
+  <!-- =================================================
+       STAGE 4 — QUOTE
+  ================================================== -->
+
   <section id="quote-stage" class="stage">
+
     <div class="quote-card">
-      <p>In your <span class="hl pink">smile</span>, I found my <span class="hl green">peace</span>.</p>
-      <p>In your <span class="hl pink">love</span>, I found my <span class="hl gold">home</span>.</p>
+
+      <p>
+        In your
+        <span class="hl pink">smile</span>,
+        I found my
+        <span class="hl green">peace</span>.
+      </p>
+
+      <p>
+        In your
+        <span class="hl pink">love</span>,
+        I found my
+        <span class="hl gold">home</span>.
+      </p>
+
     </div>
+
   </section>
 
-  <!-- STAGE 5: Passkey -->
+
+  <!-- =================================================
+       STAGE 5 — PASSKEY
+  ================================================== -->
+
   <section id="passkey-stage" class="stage">
+
     <div class="lock-container">
-      <div class="heart-lock">🔒</div>
-      <h2 id="passkey-title">Enter Passkey</h2>
-      <div class="dots" id="dots">
-        <span></span><span></span><span></span><span></span>
+
+      <div class="heart-lock">
+        🔒
       </div>
-      <div class="keypad" id="keypad">
-        <button data-num="1">1</button>
-        <button data-num="2">2</button>
-        <button data-num="3">3</button>
-        <button data-num="4">4</button>
-        <button data-num="5">5</button>
-        <button data-num="6">6</button>
-        <button data-num="7">7</button>
-        <button data-num="8">8</button>
-        <button data-num="9">9</button>
-        <button data-num="0">0</button>
-        <button class="clear" id="clearBtn">Clear</button>
+
+      <h2 id="passkey-title">
+        Enter Passkey
+      </h2>
+
+      <div
+        class="dots"
+        id="dots"
+        aria-label="Passkey progress"
+      >
+        <span></span>
+        <span></span>
+        <span></span>
+        <span></span>
       </div>
+
+      <div
+        class="keypad"
+        id="keypad"
+      >
+
+        <button type="button" data-num="1">1</button>
+        <button type="button" data-num="2">2</button>
+        <button type="button" data-num="3">3</button>
+
+        <button type="button" data-num="4">4</button>
+        <button type="button" data-num="5">5</button>
+        <button type="button" data-num="6">6</button>
+
+        <button type="button" data-num="7">7</button>
+        <button type="button" data-num="8">8</button>
+        <button type="button" data-num="9">9</button>
+
+        <button type="button" data-num="0">0</button>
+
+        <button
+          type="button"
+          class="clear"
+          id="clearBtn"
+        >
+          Clear
+        </button>
+
+      </div>
+
     </div>
+
   </section>
 
-  <!-- STAGE 6: Loading -->
+
+  <!-- =================================================
+       STAGE 6 — LOADING
+  ================================================== -->
+
   <section id="loading-stage" class="stage">
+
     <div class="rose-loader">
+
       <div class="rose">🌹</div>
       <div class="rose">🤍</div>
       <div class="rose">🌹</div>
       <div class="rose">🤍</div>
       <div class="rose">🌹</div>
       <div class="rose">🤍</div>
+
     </div>
-    <p>LOADING</p>
+
+    <p>
+      LOADING
+    </p>
+
   </section>
 
-  <!-- STAGE 7: Photo Gallery -->
+
+  <!-- =================================================
+       STAGE 7 — PHOTO GALLERY
+  ================================================== -->
+
   <section id="gallery-stage" class="stage">
-    <button class="back-btn" onclick="goToStage('letter-stage')">← Back</button>
-    <div class="gallery" id="gallery">
-      <!-- Add your own photos here later -->
-      <div class="polaroid"><img src="https://picsum.photos/id/1015/300/400" alt="photo"><p>Us</p></div>
-      <div class="polaroid"><img src="https://picsum.photos/id/1016/300/400" alt="photo"><p>Beach day</p></div>
-      <div class="polaroid"><img src="https://picsum.photos/id/1025/300/400" alt="photo"><p>Sunset</p></div>
-      <div class="polaroid"><img src="https://picsum.photos/id/1027/300/400" alt="photo"><p>Together</p></div>
-      <div class="polaroid"><img src="https://picsum.photos/id/1035/300/400" alt="photo"><p>Smile</p></div>
-      <div class="polaroid"><img src="https://picsum.photos/id/1043/300/400" alt="photo"><p>Forever</p></div>
+
+    <button
+      class="back-btn"
+      type="button"
+      onclick="goToStage('letter-stage')"
+    >
+      ← Back
+    </button>
+
+    <div
+      class="gallery"
+      id="gallery"
+    >
+
+      <!-- Replace these images with your own photos -->
+
+      <div class="polaroid">
+        <img
+          src="https://picsum.photos/id/1015/300/400"
+          alt="Us"
+          loading="lazy"
+        />
+        <p>Us</p>
+      </div>
+
+      <div class="polaroid">
+        <img
+          src="https://picsum.photos/id/1016/300/400"
+          alt="Beach day"
+          loading="lazy"
+        />
+        <p>Beach day</p>
+      </div>
+
+      <div class="polaroid">
+        <img
+          src="https://picsum.photos/id/1025/300/400"
+          alt="Sunset"
+          loading="lazy"
+        />
+        <p>Sunset</p>
+      </div>
+
+      <div class="polaroid">
+        <img
+          src="https://picsum.photos/id/1027/300/400"
+          alt="Together"
+          loading="lazy"
+        />
+        <p>Together</p>
+      </div>
+
+      <div class="polaroid">
+        <img
+          src="https://picsum.photos/id/1035/300/400"
+          alt="Smile"
+          loading="lazy"
+        />
+        <p>Smile</p>
+      </div>
+
+      <div class="polaroid">
+        <img
+          src="https://picsum.photos/id/1043/300/400"
+          alt="Forever"
+          loading="lazy"
+        />
+        <p>Forever</p>
+      </div>
+
     </div>
+
   </section>
 
-  <!-- STAGE 8: Love Letter -->
+
+  <!-- =================================================
+       STAGE 8 — LOVE LETTER
+  ================================================== -->
+
   <section id="letter-stage" class="stage">
-    <button class="back-btn" onclick="goToStage('gallery-stage')">← Gallery</button>
+
+    <button
+      class="back-btn"
+      type="button"
+      onclick="goToStage('gallery-stage')"
+    >
+      ← Gallery
+    </button>
+
     <div class="letter-paper">
+
       <div id="letter-text"></div>
+
     </div>
+
     <div class="final-message">
-      <h1 class="cursive big">I will always love you</h1>
-      <p>From, your forever</p>
+
+      <h1 class="cursive big">
+        I will always love you
+      </h1>
+
+      <p>
+        From, your forever
+      </p>
+
     </div>
+
   </section>
+
+
+  <!-- JAVASCRIPT -->
 
   <script src="script.js"></script>
+
 </body>
 </html>
