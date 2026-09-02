@@ -14,15 +14,9 @@ I love you more than all the stars in the night sky, and I cannot wait until the
 Forever and always yours,
 Your Love`;
 
-// ========== YOUR MEDIA LIST ==========
-const mediaList = [
-  { type: "video", src: "https://res.cloudinary.com/srfgkyqw/video/upload/v1788388943/VIDEO-2025-01-01-01-53-35.mp4" }
-];
-
 // ========== STATE ==========
 let currentStage = "gift-stage";
 let enteredCode = "";
-let currentMediaIndex = 0;
 
 // ========== HELPERS ==========
 function goToStage(id) {
@@ -31,7 +25,6 @@ function goToStage(id) {
   currentStage = id;
 
   if (id === "roses-stage") startRoses();
-  if (id === "gallery-stage") startSlideshow();
   if (id === "letter-stage") typeLetter();
 }
 
@@ -87,7 +80,7 @@ keypad.addEventListener("click", (e) => {
       dots.forEach(d => d.classList.add("correct"));
       document.getElementById("passkey-title").textContent = "Unlocked";
       setTimeout(() => goToStage("loading-stage"), 800);
-      setTimeout(() => goToStage("gallery-stage"), 3200);
+      setTimeout(() => goToStage("gallery-stage"), 2800);
     } else {
       enteredCode = "";
       setTimeout(updateDots, 400);
@@ -100,58 +93,6 @@ function updateDots() {
     d.classList.toggle("filled", i < enteredCode.length);
     d.classList.remove("correct");
   });
-}
-
-// ========== SLIDESHOW ==========
-function startSlideshow() {
-  const gallery = document.getElementById("gallery");
-  gallery.innerHTML = `
-    <div class="slideshow-container">
-      <div id="media-display"></div>
-      <div class="slide-counter" id="slide-counter"></div>
-    </div>
-  `;
-  showNextMedia();
-}
-
-function showNextMedia() {
-  if (currentMediaIndex >= mediaList.length) {
-    // After all media finished → go to letter
-    goToStage("letter-stage");
-    return;
-  }
-
-  const item = mediaList[currentMediaIndex];
-  const display = document.getElementById("media-display");
-  const counter = document.getElementById("slide-counter");
-
-  counter.textContent = `${currentMediaIndex + 1} / ${mediaList.length}`;
-
-  if (item.type === "image") {
-    display.innerHTML = `
-      <div class="zoom-image">
-        <img src="${item.src}" alt="memory">
-      </div>
-    `;
-    // Show image for 3 seconds then next
-    setTimeout(() => {
-      currentMediaIndex++;
-      showNextMedia();
-    }, 3000);
-  } 
-  else if (item.type === "video") {
-    display.innerHTML = `
-      <video id="current-video" autoplay playsinline>
-        <source src="${item.src}" type="video/mp4">
-      </video>
-    `;
-
-    const video = document.getElementById("current-video");
-    video.onended = () => {
-      currentMediaIndex++;
-      showNextMedia();
-    };
-  }
 }
 
 // ========== LETTER TYPEWRITER ==========
