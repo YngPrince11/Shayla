@@ -1,5 +1,6 @@
 // ========== CONFIG ==========
-const PASSKEY = "1432";          // ← Change this to any 4-digit code
+const PASSKEY = "2709";   // ← Your new password
+
 const LETTER = `To My Dearest,
 
 I am writing this little note just because you have been on my mind all day long, which is nothing new since you pretty much live there anyway. Every single time I think about your smile, my heart does a tiny happy dance. I find myself smiling at my phone like a complete fool whenever your name pops up, and honestly, it is my absolute favorite part of the day.
@@ -13,9 +14,33 @@ I love you more than all the stars in the night sky, and I cannot wait until the
 Forever and always yours,
 Your Love`;
 
+// ========== YOUR MEDIA LIST ==========
+// Put the real file names from your media folder here
+const mediaList = [
+  // Images (will show for 3 seconds with zoom)
+  { type: "image", src: "media/IMG-20260704-WA0104(1).jpg" },
+  { type: "image", src: "media/PHOTO-2025-01-01-01-53-58.jpg" },
+
+  // Videos (will play fully then move to next)
+  { type: "video", src: "media/VID-20260304-WA0007.mp4" },
+  { type: "video", src: "media/VID-20260304-WA0007(1).mp4" },
+  { type: "video", src: "media/VID-20260325-WA0008.mp4" },
+  { type: "video", src: "media/VIDEO-2025-01-01-01-44-21.mp4" },
+  { type: "video", src: "media/VIDEO-2025-01-01-01-50-57.mp4" },
+  { type: "video", src: "media/VIDEO-2025-01-01-01-50-57(1).mp4" },
+  { type: "video", src: "media/VIDEO-2025-01-01-01-50-57(2).mp4" },
+  { type: "video", src: "media/VIDEO-2025-01-01-01-50-57(3).mp4" },
+  { type: "video", src: "media/VIDEO-2025-01-01-01-50-57(4).mp4" },
+  { type: "video", src: "media/VIDEO-2025-01-01-01-50-57(5).mp4" },
+  { type: "video", src: "media/VIDEO-2025-01-01-01-52-06.mp4" },
+  { type: "video", src: "media/VIDEO-2025-01-01-01-52-27.mp4" },
+  { type: "video", src: "media/VIDEO-2025-01-01-01-52-52.mp4" },
+];
+
 // ========== STATE ==========
 let currentStage = "gift-stage";
 let enteredCode = "";
+let currentMediaIndex = 0;
 
 // ========== HELPERS ==========
 function goToStage(id) {
@@ -24,6 +49,7 @@ function goToStage(id) {
   currentStage = id;
 
   if (id === "roses-stage") startRoses();
+  if (id === "gallery-stage") startSlideshow();
   if (id === "letter-stage") typeLetter();
 }
 
@@ -53,11 +79,6 @@ function startRoses() {
   setTimeout(() => goToStage("message-stage"), 5500);
 }
 
-// Auto advance message → quote → passkey
-setTimeout(() => {
-  if (currentStage === "message-stage") goToStage("quote-stage");
-}, 9000);
-
 document.getElementById("message-stage").addEventListener("click", () => goToStage("quote-stage"));
 document.getElementById("quote-stage").addEventListener("click", () => goToStage("passkey-stage"));
 
@@ -86,7 +107,6 @@ keypad.addEventListener("click", (e) => {
       setTimeout(() => goToStage("loading-stage"), 800);
       setTimeout(() => goToStage("gallery-stage"), 3200);
     } else {
-      // wrong
       enteredCode = "";
       setTimeout(updateDots, 400);
     }
@@ -98,6 +118,59 @@ function updateDots() {
     d.classList.toggle("filled", i < enteredCode.length);
     d.classList.remove("correct");
   });
+}
+
+// ========== SLIDESHOW ==========
+function startSlideshow() {
+  const gallery = document.getElementById("gallery");
+  gallery.innerHTML = `
+    <div class="slideshow-container">
+      <div id="media-display"></div>
+      <div class="slide-counter" id="slide-counter"></div>
+    </div>
+  `;
+
+  showNextMedia();
+}
+
+function showNextMedia() {
+  if (currentMediaIndex >= mediaList.length) {
+    // After all media finished → go to letter
+    goToStage("letter-stage");
+    return;
+  }
+
+  const item = mediaList[currentMediaIndex];
+  const display = document.getElementById("media-display");
+  const counter = document.getElementById("slide-counter");
+
+  counter.textContent = `${currentMediaIndex + 1} / ${mediaList.length}`;
+
+  if (item.type === "image") {
+    display.innerHTML = `
+      <div class="zoom-image">
+        <img src="${item.src}" alt="memory">
+      </div>
+    `;
+    // Show image for 3 seconds then next
+    setTimeout(() => {
+      currentMediaIndex++;
+      showNextMedia();
+    }, 3000);
+  } 
+  else if (item.type === "video") {
+    display.innerHTML = `
+      <video id="current-video" autoplay playsinline>
+        <source src="${item.src}" type="video/mp4">
+      </video>
+    `;
+
+    const video = document.getElementById("current-video");
+    video.onended = () => {
+      currentMediaIndex++;
+      showNextMedia();
+    };
+  }
 }
 
 // ========== LETTER TYPEWRITER ==========
@@ -116,8 +189,3 @@ function typeLetter() {
   }
   type();
 }
-
-// Make polaroids slightly rotated
-document.querySelectorAll(".polaroid").forEach((p, i) => {
-  p.style.setProperty("--rot", (Math.random() * 10 - 5) + "deg");
-});
