@@ -331,7 +331,7 @@ body {
   50% { transform: translateY(-12px); }
 }
 
-/* ========== SLIDESHOW STYLES ========== */
+/* Slideshow styles */
 .slideshow-container {
   width: 100%;
   max-width: 900px;
