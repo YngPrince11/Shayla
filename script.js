@@ -1,5 +1,8 @@
-// ========== CONFIG ==========
-const PASSKEY = "2709";
+// =====================================================
+// CONFIG
+// =====================================================
+
+const PASSKEY = "1432";
 
 const LETTER = `To My Dearest,
 
@@ -14,100 +17,326 @@ I love you more than all the stars in the night sky, and I cannot wait until the
 Forever and always yours,
 Your Love`;
 
-// ========== STATE ==========
+
+// =====================================================
+// STATE
+// =====================================================
+
 let currentStage = "gift-stage";
 let enteredCode = "";
+let messageTimer = null;
+let rosesTimer = null;
+let letterTypingTimer = null;
 
-// ========== HELPERS ==========
+
+// =====================================================
+// STAGE CONTROL
+// =====================================================
+
 function goToStage(id) {
-  document.querySelectorAll(".stage").forEach(s => s.classList.remove("active"));
-  document.getElementById(id).classList.add("active");
+  const target = document.getElementById(id);
+
+  if (!target) return;
+
+  document.querySelectorAll(".stage").forEach(stage => {
+    stage.classList.remove("active");
+  });
+
+  target.classList.add("active");
   currentStage = id;
 
-  if (id === "roses-stage") startRoses();
-  if (id === "letter-stage") typeLetter();
+  // Stop old timers
+  if (messageTimer) {
+    clearTimeout(messageTimer);
+    messageTimer = null;
+  }
+
+  if (rosesTimer) {
+    clearTimeout(rosesTimer);
+    rosesTimer = null;
+  }
+
+  if (letterTypingTimer) {
+    clearTimeout(letterTypingTimer);
+    letterTypingTimer = null;
+  }
+
+  // Start stage-specific behavior
+  if (id === "roses-stage") {
+    startRoses();
+  }
+
+  if (id === "message-stage") {
+    startMessageTimer();
+  }
+
+  if (id === "letter-stage") {
+    typeLetter();
+  }
+
+  // Scroll gallery/letter back to top when opened
+  if (id === "gallery-stage") {
+    const gallery = document.getElementById("gallery");
+    if (gallery) gallery.scrollTop = 0;
+  }
 }
 
-// ========== GIFT ==========
-document.getElementById("giftBox").addEventListener("click", () => {
-  document.getElementById("giftBox").classList.add("open");
-  setTimeout(() => goToStage("roses-stage"), 800);
-});
 
-// ========== ROSES ==========
-function startRoses() {
-  const container = document.getElementById("roses-container");
-  container.innerHTML = "";
-  const roses = ["🌹", "🥀", "💮", "🌸", "🌺"];
-  
-  for (let i = 0; i < 80; i++) {
-    const rose = document.createElement("div");
-    rose.className = "rose-fall";
-    rose.textContent = roses[Math.floor(Math.random() * roses.length)];
-    rose.style.left = Math.random() * 100 + "vw";
-    rose.style.animationDuration = (3 + Math.random() * 4) + "s";
-    rose.style.animationDelay = Math.random() * 2 + "s";
-    rose.style.fontSize = (20 + Math.random() * 25) + "px";
-    container.appendChild(rose);
-  }
+// =====================================================
+// GIFT
+// =====================================================
 
-  setTimeout(() => goToStage("message-stage"), 5500);
-}
+const giftBox = document.getElementById("giftBox");
 
-document.getElementById("message-stage").addEventListener("click", () => goToStage("quote-stage"));
-document.getElementById("quote-stage").addEventListener("click", () => goToStage("passkey-stage"));
+if (giftBox) {
+  giftBox.addEventListener("click", () => {
+    // Prevent multiple clicks
+    if (giftBox.classList.contains("open")) return;
 
-// ========== PASSKEY ==========
-const dots = document.querySelectorAll("#dots span");
-const keypad = document.getElementById("keypad");
+    giftBox.classList.add("open");
 
-keypad.addEventListener("click", (e) => {
-  if (!e.target.dataset.num && !e.target.classList.contains("clear")) return;
-
-  if (e.target.classList.contains("clear")) {
-    enteredCode = "";
-    updateDots();
-    return;
-  }
-
-  if (enteredCode.length < 4) {
-    enteredCode += e.target.dataset.num;
-    updateDots();
-  }
-
-  if (enteredCode.length === 4) {
-    if (enteredCode === PASSKEY) {
-      dots.forEach(d => d.classList.add("correct"));
-      document.getElementById("passkey-title").textContent = "Unlocked";
-      setTimeout(() => goToStage("loading-stage"), 800);
-      setTimeout(() => goToStage("gallery-stage"), 2800);
-    } else {
-      enteredCode = "";
-      setTimeout(updateDots, 400);
-    }
-  }
-});
-
-function updateDots() {
-  dots.forEach((d, i) => {
-    d.classList.toggle("filled", i < enteredCode.length);
-    d.classList.remove("correct");
+    setTimeout(() => {
+      goToStage("roses-stage");
+    }, 800);
   });
 }
 
-// ========== LETTER TYPEWRITER ==========
+
+// =====================================================
+// ROSES
+// =====================================================
+
+function startRoses() {
+  const container = document.getElementById("roses-container");
+
+  if (!container) return;
+
+  container.innerHTML = "";
+
+  const flowers = [
+    "🌹",
+    "🌸",
+    "🌺",
+    "💮",
+    "🥀"
+  ];
+
+  // Create falling flowers
+  for (let i = 0; i < 80; i++) {
+    const flower = document.createElement("div");
+
+    flower.className = "rose-fall";
+    flower.textContent =
+      flowers[Math.floor(Math.random() * flowers.length)];
+
+    flower.style.left = Math.random() * 100 + "vw";
+    flower.style.animationDuration =
+      3 + Math.random() * 4 + "s";
+
+    flower.style.animationDelay =
+      Math.random() * 2 + "s";
+
+    flower.style.fontSize =
+      20 + Math.random() * 25 + "px";
+
+    flower.style.setProperty(
+      "--drift",
+      (Math.random() * 160 - 80) + "px"
+    );
+
+    container.appendChild(flower);
+  }
+
+  // Move to message after the flower animation
+  rosesTimer = setTimeout(() => {
+    if (currentStage === "roses-stage") {
+      goToStage("message-stage");
+    }
+  }, 5500);
+}
+
+
+// =====================================================
+// MESSAGE
+// =====================================================
+
+function startMessageTimer() {
+  messageTimer = setTimeout(() => {
+    if (currentStage === "message-stage") {
+      goToStage("quote-stage");
+    }
+  }, 9000);
+}
+
+const messageStage = document.getElementById("message-stage");
+
+if (messageStage) {
+  messageStage.addEventListener("click", () => {
+    goToStage("quote-stage");
+  });
+}
+
+
+// =====================================================
+// QUOTE
+// =====================================================
+
+const quoteStage = document.getElementById("quote-stage");
+
+if (quoteStage) {
+  quoteStage.addEventListener("click", () => {
+    goToStage("passkey-stage");
+  });
+}
+
+
+// =====================================================
+// PASSKEY
+// =====================================================
+
+const dots = document.querySelectorAll("#dots span");
+const keypad = document.getElementById("keypad");
+const passkeyTitle = document.getElementById("passkey-title");
+
+if (keypad) {
+  keypad.addEventListener("click", event => {
+    const button = event.target.closest("button");
+
+    if (!button) return;
+
+    // Clear
+    if (button.classList.contains("clear")) {
+      enteredCode = "";
+      passkeyTitle.textContent = "Enter Passkey";
+      updateDots();
+      return;
+    }
+
+    const number = button.dataset.num;
+
+    if (number === undefined) return;
+
+    // Maximum 4 digits
+    if (enteredCode.length >= 4) return;
+
+    enteredCode += number;
+    updateDots();
+
+    // Check after 4 digits
+    if (enteredCode.length === 4) {
+      if (enteredCode === PASSKEY) {
+        unlockPasskey();
+      } else {
+        wrongPasskey();
+      }
+    }
+  });
+}
+
+
+// =====================================================
+// PASSKEY SUCCESS
+// =====================================================
+
+function unlockPasskey() {
+  dots.forEach(dot => {
+    dot.classList.remove("filled");
+    dot.classList.add("correct");
+  });
+
+  passkeyTitle.textContent = "Unlocked ❤️";
+
+  setTimeout(() => {
+    goToStage("loading-stage");
+  }, 800);
+
+  setTimeout(() => {
+    goToStage("gallery-stage");
+  }, 3200);
+}
+
+
+// =====================================================
+// PASSKEY WRONG
+// =====================================================
+
+function wrongPasskey() {
+  passkeyTitle.textContent = "Try again ❤️";
+
+  dots.forEach(dot => {
+    dot.classList.add("wrong");
+  });
+
+  setTimeout(() => {
+    enteredCode = "";
+
+    dots.forEach(dot => {
+      dot.classList.remove("filled");
+      dot.classList.remove("wrong");
+    });
+
+    passkeyTitle.textContent = "Enter Passkey";
+  }, 500);
+}
+
+
+// =====================================================
+// DOT UPDATE
+// =====================================================
+
+function updateDots() {
+  dots.forEach((dot, index) => {
+    dot.classList.toggle(
+      "filled",
+      index < enteredCode.length
+    );
+
+    dot.classList.remove("correct");
+    dot.classList.remove("wrong");
+  });
+}
+
+
+// =====================================================
+// LETTER TYPEWRITER
+// =====================================================
+
 function typeLetter() {
-  const el = document.getElementById("letter-text");
-  el.textContent = "";
-  let i = 0;
+  const element = document.getElementById("letter-text");
+
+  if (!element) return;
+
+  element.textContent = "";
+
+  let index = 0;
   const speed = 28;
 
   function type() {
-    if (i < LETTER.length) {
-      el.textContent += LETTER.charAt(i);
-      i++;
-      setTimeout(type, speed);
+    if (index >= LETTER.length) {
+      letterTypingTimer = null;
+      return;
     }
+
+    element.textContent += LETTER.charAt(index);
+    index++;
+
+    letterTypingTimer = setTimeout(type, speed);
   }
+
   type();
 }
+
+
+// =====================================================
+// POLAROID ROTATION
+// =====================================================
+
+document.querySelectorAll(".polaroid").forEach(polaroid => {
+  const rotation =
+    Math.random() * 10 - 5;
+
+  polaroid.style.setProperty(
+    "--rot",
+    rotation + "deg"
+  );
+});
